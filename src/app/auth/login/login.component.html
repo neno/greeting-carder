@@ -1,6 +1,12 @@
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <pre>{{userCredentials | json}}</pre>
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    <form class="space-y-6" #loginForm (submit)="onSubmit(loginForm['value'])" novalidate>
+    <form class="space-y-6" #loginForm="ngForm"
+          [ngFormOptions]="{
+            updateOn: 'submit'
+          }"
+      (ngSubmit)="onSubmit()"
+    >
       <fieldset>
         <ol class="flex flex-col gap-4">
           <li>
@@ -10,20 +16,22 @@
               >Email address</label
             >
             <input
+              [(ngModel)]="userCredentials.email"
+              #email="ngModel"
               id="email"
               name="email"
               type="email"
               autocomplete="email"
               required
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            <p [hidden]="email.valid || email.pristine" class="text-sm text-red-700">Email is required!</p>
           </li>
           <li>
             <div class="flex items-center justify-between">
               <label
                 for="password"
                 class="block text-sm font-medium leading-6 text-gray-900"
-                >Password</label
-              >
+              >Password</label>
               <div class="text-sm">
                 <a
                   href="#"
@@ -33,12 +41,15 @@
               </div>
             </div>
             <input
+              [(ngModel)]="userCredentials.password"
+              #password="ngModel"
               id="password"
               name="password"
               type="password"
               autocomplete="current-password"
               required
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            <p *ngIf="!password.valid && !password.pristine" class="text-sm text-red-700">Password is required!</p>
           </li>
         </ol>
 

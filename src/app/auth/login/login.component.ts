@@ -1,15 +1,22 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {FormsModule, NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  onSubmit(data: any) {
-    console.log(data)
+
+  userCredentials = {
+    email: '',
+    password: ''
+  }
+
+  onSubmit() {
+    console.log('submited', this.userCredentials)
   }
 }
