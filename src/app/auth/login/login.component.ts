@@ -8,4 +8,8 @@ import { CommonModule } from '@angular/common';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent {}
+export class LoginComponent {
+  onSubmit(data: any) {
+    console.log(data)
+  }
+}
