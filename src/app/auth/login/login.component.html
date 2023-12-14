@@ -1,10 +1,16 @@
 <div class="flex min-h-full flex-col gap-16 justify-center px-6 py-12 lg:px-8">
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <div *ngIf="isSubmitted && isAuthenticated">
+      You have logged in successfully!
+    </div>
+    <div *ngIf="isSubmitted && !isAuthenticated">
+      User email or password is wrong!
+    </div>
     <form
       class="space-y-6 p-4 bg-green-500"
       #loginForm="ngForm"
       [ngFormOptions]="{ updateOn: 'submit' }"
-      (ngSubmit)="onSubmit(loginForm.value)">
+      (ngSubmit)="onSubmit(loginForm.form)">
       <fieldset class="bg-neutral-200 p-4">
         <legend class="bg-white px-2">Simple template driven form</legend>
         <ol class="flex flex-col gap-4">

@@ -1,13 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  FormControl,
   FormGroup,
   FormsModule,
   NgForm,
-  ReactiveFormsModule,
-  Validators,
+  ReactiveFormsModule
 } from '@angular/forms';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -19,31 +18,23 @@ import {
 export class LoginComponent {
   email = '';
   password = '';
+  isSubmitted = false;
+  isAuthenticated = false;
 
-  credentials = {
-    email: '',
-    password: '',
-  };
-
-  frm = new FormGroup({
-    email: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
-  });
+  authService = inject(AuthService);
 
   log(loginForm: NgForm) {
     const { form } = loginForm;
     console.log(form);
   }
 
-  onSubmit({ email, password }: { email: string; password: string }) {
-    console.log({ email, password });
-  }
+  onSubmit(loginForm: FormGroup) {
+    const { status, value } = loginForm;
+    this.isSubmitted = true;
 
-  onSubmitBanana() {
-    console.log(this.credentials);
-  }
-
-  onSubmitReactive() {
-    console.log(this.frm);
+    if (status === 'VALID') {
+      const { email, password } = value;
+      this.isAuthenticated = this.authService.authenticate(email, password);
+    }
   }
 }
