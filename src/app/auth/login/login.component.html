@@ -55,7 +55,8 @@
             <p
               class="text-sm text-red-700"
               *ngIf="
-                loginForm.controls['password']?.touched &&
+                (loginForm.submitted ||
+                  loginForm.controls['password']?.touched) &&
                 loginForm.controls['password']?.errors?.['required']
               ">
               Password is required!
