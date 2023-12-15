@@ -9,6 +9,7 @@ export class AuthService {
   private readonly password = 'password';
 
   private user: User | undefined;
+  private _currentUser: CurrentUser | undefined;
 
   constructor() {}
 
@@ -22,11 +23,10 @@ export class AuthService {
 
   signup(formData: User) {
     this.user = formData;
+    this._currentUser = { name: formData.name, email: formData.email };
   }
 
   get currentUser(): CurrentUser | undefined {
-    return this.user
-      ? { name: this.user.name, email: this.user.email }
-      : undefined;
+    return this._currentUser;
   }
 }
