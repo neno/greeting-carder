@@ -14,7 +14,7 @@ export class SignupComponent {
     email: new FormControl("", [Validators.required, Validators.email]),
     name: new FormControl("", [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
     password: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(32)]),
-    passwordConfirm: new FormControl("")
+    passwordConfirm: new FormControl("") // TODO: Add custom validation
   })
 
   get password() {
