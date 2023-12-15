@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class AuthService {
   private readonly email = 'admin@test.com';
   private readonly password = 'password';
+
   constructor() {}
 
   authenticate(email: string, password: string): boolean {

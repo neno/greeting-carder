@@ -33,5 +33,5 @@ describe('AuthService', () => {
 
     const result3 = service.authenticate('admin@test.com', 'wrongpassword');
     expect(result3).toBe(false);
-  })
+  });
 });

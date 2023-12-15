@@ -4,7 +4,7 @@ import {
   FormGroup,
   FormsModule,
   NgForm,
-  ReactiveFormsModule
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { AuthService } from '../auth.service';
 
