@@ -22,7 +22,6 @@ export class SignupComponent {
         '',
         [
           Validators.required,
-          Validators.pattern(/^[a-zA-Z]+(?: [a-zA-Z]+)*$/),
           Validators.minLength(3),
           Validators.maxLength(100),
         ],
@@ -30,9 +29,11 @@ export class SignupComponent {
       email: ['', [Validators.required, Validators.email]],
       password: [
         '',
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(100),
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(100),
+        ],
       ],
       confirmPassword: ['', Validators.required],
     },
