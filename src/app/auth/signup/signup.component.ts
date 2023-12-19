@@ -62,7 +62,11 @@ export class SignupComponent {
   }
 
   onSubmit() {
-    console.log('onSubmit', this.signupForm.valid, this.signupForm.getRawValue);
+    console.log(
+      'onSubmit',
+      this.signupForm.valid,
+      this.signupForm.getRawValue()
+    );
     if (this.signupForm.valid) {
       this.isSubmitted = true;
       this.authService.signup(this.signupForm.getRawValue());
