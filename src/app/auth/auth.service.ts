@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { CurrentUser, User } from './user.model';
 
 @Injectable({
@@ -9,9 +9,7 @@ export class AuthService {
   private readonly password = 'password';
 
   private user: User | undefined;
-  private _currentUser: CurrentUser | undefined;
-
-  constructor() {}
+  private _currentUserSig = signal<CurrentUser | undefined | null>(undefined);
 
   authenticate(email: string, password: string): boolean {
     if (!email || !password) {
@@ -23,10 +21,10 @@ export class AuthService {
 
   signup(formData: User) {
     this.user = formData;
-    this._currentUser = { name: formData.name, email: formData.email };
+    this._currentUserSig.set({ name: this.user.name, email: this.user.email });
   }
 
-  get currentUser(): CurrentUser | undefined {
-    return this._currentUser;
+  get currentUser(): CurrentUser | undefined | null {
+    return this._currentUserSig();
   }
 }

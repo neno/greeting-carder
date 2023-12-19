@@ -1,57 +1,70 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '../auth.service';
+import { passwordMatchValidator } from 'src/app/lib/password-match.directive';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css',
 })
 export class SignupComponent {
-  signupForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    name: new FormControl('', [
-      Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(100),
-    ]),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(8),
-      Validators.maxLength(32),
-    ]),
-    passwordConfirm: new FormControl(''), // TODO: Add custom validation
-  });
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  isSubmitted = false;
 
-  get password() {
-    return this.signupForm.get('password');
+  signupForm = this.fb.nonNullable.group(
+    {
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z]+(?: [a-zA-Z]+)*$/),
+          Validators.minLength(3),
+          Validators.maxLength(100),
+        ],
+      ],
+      email: ['', [Validators.required, Validators.email]],
+      password: [
+        '',
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(100),
+      ],
+      confirmPassword: ['', Validators.required],
+    },
+
+    { validators: passwordMatchValidator }
+  );
+
+  get name() {
+    return this.signupForm.controls['name'];
   }
 
   get email() {
-    return this.signupForm.get('email');
+    return this.signupForm.controls['email'];
   }
 
-  get name() {
-    return this.signupForm.get('name');
+  get password() {
+    return this.signupForm.controls['password'];
   }
 
-  get passwordConfirm() {
-    return this.signupForm.get('passwordConfirm');
+  get confirmPassword() {
+    return this.signupForm.controls['confirmPassword'];
   }
 
   log() {
-    console.log('singup');
+    console.log('singup', this.signupForm);
   }
 
   onSubmit() {
-    console.log(this.signupForm);
+    console.log('onSubmit', this.signupForm.valid, this.signupForm.getRawValue);
+    if (this.signupForm.valid) {
+      this.isSubmitted = true;
+      this.authService.signup(this.signupForm.getRawValue());
+    }
   }
 }
