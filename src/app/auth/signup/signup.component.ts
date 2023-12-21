@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { passwordMatchValidator } from 'src/app/lib/password-match.directive';
+import { passwordMatchValidator } from 'src/app/lib/password-match.validator';
 
 @Component({
   selector: 'app-signup',
